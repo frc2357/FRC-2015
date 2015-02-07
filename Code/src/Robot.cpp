@@ -1,6 +1,13 @@
 #include "WPILib.h"
 #include "DriveController.h"
 #include "LiftController.h"
+#include "OperatorController.h"
+
+class OperatrControl {
+public:
+	OperatrControl();
+	virtual ~OperatrControl();
+};
 
 #define LIFTBTNUP 3
 #define LIFTBTNDOWN 4
@@ -22,9 +29,9 @@ class Robot: public SampleRobot
 
 	Joystick stickLeft;
 	Joystick stickRight;
-	DigitalInput jackIsDown;
 	DriveController driveController;
 	LiftController liftController;
+	OperatorController operatorControl;
 
 	int pressedButton;
 	float rotation;
@@ -35,9 +42,9 @@ public:
 	Robot() :
 			stickLeft(joystickChannel),
 			stickRight(1),
-			jackIsDown(1),
 			driveController(1, 0, 2, 3),
-			liftController(4, 1)
+			liftController(4, 1),
+			operatorControl(driveController, liftController)
 	{
 		pressedButton=0;
 		rotation=0;
