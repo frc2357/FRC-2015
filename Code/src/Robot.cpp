@@ -1,4 +1,5 @@
 #include "WPILib.h"
+#include "DriveController.h"
 
 #define LIFTBTNUP 3
 #define LIFTBTNDOWN 4
@@ -18,11 +19,11 @@ class Robot: public SampleRobot
 
     const static int joystickChannel	= 0;
 
-	RobotDrive robotDrive;	// robot drive system
-	Joystick stickLeft;			// only joystick
+	Joystick stickLeft;
 	Talon liftMotor;
 	Joystick stickRight;
 	DigitalInput jackIsDown;
+	DriveController driveController;
 
 	int pressedButton;
 	float rotation;
@@ -32,18 +33,12 @@ class Robot: public SampleRobot
 
 public:
 	Robot() :
-			robotDrive(frontLeftChannel, rearLeftChannel,
-					   frontRightChannel, rearRightChannel),	// these must be initialized in the same order
 			stickLeft(joystickChannel),								// as they are declared above.
 			liftMotor(4),
 			stickRight(1),
-			jackIsDown(1)
+			jackIsDown(1),
+			driveController(1, 0, 2, 3)
 	{
-		robotDrive.SetExpiration(0.1);
-		robotDrive.SetInvertedMotor(RobotDrive::kFrontRightMotor, true);	// invert the left side motors
-		robotDrive.SetInvertedMotor(RobotDrive::kRearLeftMotor, false);// you may need to change or remove this to match your robot
-		robotDrive.SetInvertedMotor(RobotDrive::kRearRightMotor, true);
-
 		pressedButton=0;
 		rotation=0;
 		forward=0;
@@ -56,21 +51,19 @@ public:
 	 */
 	void Autonomous()
 	{
-		while (IsAutonomous() && IsEnabled())
-		robotDrive.MecanumDrive_Cartesian(0.0,-0.125,0.0);
-		Wait(4.0);
-		robotDrive.MecanumDrive_Cartesian(0.0,0.0,0.0);
+
 	}
 
 	void OperatorControl()
 	{
+
 		std::cout << "Starting Operator Control..." << std::endl;
-		robotDrive.SetSafetyEnabled(false);
+		driveController.SetSafetyEnabled(false);
 		while (IsOperatorControl() && IsEnabled())
 		{
         	// Use the joystick X axis for lateral movement, Y axis for forward movement, and Z axis for rotation.
         	// This sample does not use field-oriented drive, so the gyro input is set to zero.
-			robotDrive.MecanumDrive_Cartesian((strafe)/2, (forward)/2, (rotation)/2);
+			driveController.SetThrottle(strafe/2, forward/2, rotation/2);
 
 			Wait(0.005); // wait 5ms to avoid hogging CPU cycles
 

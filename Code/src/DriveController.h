@@ -8,10 +8,18 @@
 #ifndef SRC_DRIVECONTROLLER_H_
 #define SRC_DRIVECONTROLLER_H_
 
+#include "RobotDrive.h"
+
 class DriveController {
 public:
-	DriveController();
+	DriveController(int flChan, int blChan, int frChan, int brChan);
 	virtual ~DriveController();
+
+	void SetThrottle(float x, float y, float rotate);
+	void SetSafetyEnabled(bool enabled);
+
+private:
+	RobotDrive robotDrive;
 };
 
 #endif /* SRC_DRIVECONTROLLER_H_ */
