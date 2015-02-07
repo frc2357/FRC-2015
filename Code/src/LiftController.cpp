@@ -5,14 +5,24 @@
  *      Author: Robotics
  */
 
-#include <LiftController.h>
+#include "LiftController.h"
 
-LiftController::LiftController() {
-	// TODO Auto-generated constructor stub
-
+LiftController::LiftController(int motorChan, int switchChan)
+	: liftMotor(motorChan),
+	  downSwitch(switchChan) {
 }
+
 
 LiftController::~LiftController() {
-	// TODO Auto-generated destructor stub
 }
 
+void LiftController::SetSpeed(float speed) {
+	if (IsDown() && speed > 0) {
+		speed = 0;
+	}
+	liftMotor.SetSpeed(speed);
+}
+
+bool LiftController::IsDown() {
+	return (downSwitch.Get() == 1);
+}
