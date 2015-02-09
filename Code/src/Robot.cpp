@@ -3,11 +3,7 @@
 #include "LiftController.h"
 #include "OperatorController.h"
 
-class OperatrControl {
-public:
-	OperatrControl();
-	virtual ~OperatrControl();
-};
+
 
 #define LIFTBTNUP 3
 #define LIFTBTNDOWN 4
