@@ -15,12 +15,20 @@
 class OperatorController {
 public:
 	OperatorController(DriveController &driveCtlr,
-					LiftController &liftCtlr);
+					LiftController &liftCtlr,
+					int stickLChan,
+					int stickRChan);
 	virtual ~OperatorController();
+	void Run();
 
 private:
 	DriveController &driveController;
 	LiftController &liftController;
+	Joystick stickRight;
+	Joystick stickLeft;
+	float rotation;
+	float forward;
+	float strafe;
 };
 
 #endif /* SRC_OPERATORCONTROL_H_ */
