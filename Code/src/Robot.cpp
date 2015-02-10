@@ -2,12 +2,7 @@
 #include "DriveController.h"
 #include "LiftController.h"
 #include "OperatorController.h"
-
-
-
-#define LIFTBTNUP 3
-#define LIFTBTNDOWN 4
-
+#include "AutonomousControl.h"
 
 /**
  * This is a demo program showing how to use Mecanum control with the RobotDrive class.
@@ -18,6 +13,7 @@ class Robot: public SampleRobot
 	DriveController driveController;
 	LiftController liftController;
 	OperatorController operatorController;
+	AutonomousControl autonomousControl;
 
 	int pressedButton;
 	float rotation;
@@ -28,7 +24,8 @@ public:
 	Robot() :
 			driveController(1, 0, 2, 3),
 			liftController(4, 1),
-			operatorController(driveController, liftController, 0, 1)
+			operatorController(driveController, liftController, 0, 1),
+			autonomousControl(driveController, liftController)
 	{
 		pressedButton=0;
 		rotation=0;
@@ -41,7 +38,10 @@ public:
 	 */
 	void Autonomous()
 	{
-
+		if (IsAutonomous() && IsEnabled())
+		{
+			autonomousControl.RunModeOne();
+		}
 	}
 
 	void OperatorControl()
