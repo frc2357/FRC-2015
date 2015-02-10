@@ -7,9 +7,11 @@
 
 #include "LiftController.h"
 
-LiftController::LiftController(int motorChan, int switchChan)
+LiftController::LiftController(int motorChan, int switchChan,
+								int encoderChan1, int encoderChan2)
 	: liftMotor(motorChan),
-	  downSwitch(switchChan) {
+	  downSwitch(switchChan),
+	  encoder(encoderChan1, encoderChan2){
 }
 
 
@@ -19,6 +21,7 @@ LiftController::~LiftController() {
 void LiftController::SetSpeed(float speed) {
 	if (IsDown() && speed > 0) {
 		speed = 0;
+		encoder.Reset();
 	}
 	liftMotor.SetSpeed(speed);
 }
@@ -26,3 +29,8 @@ void LiftController::SetSpeed(float speed) {
 bool LiftController::IsDown() {
 	return (downSwitch.Get() == 1);
 }
+
+int LiftController::EncoderGet(){
+	return encoder.Get();
+}
+

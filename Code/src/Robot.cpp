@@ -23,7 +23,7 @@ class Robot: public SampleRobot
 public:
 	Robot() :
 			driveController(1, 0, 2, 3),
-			liftController(4, 1),
+			liftController(4, 1, 3, 4),
 			operatorController(driveController, liftController, 0, 1),
 			autonomousControl(driveController, liftController)
 	{
@@ -50,6 +50,7 @@ public:
 		while (IsOperatorControl() && IsEnabled())
 		{
 			operatorController.Run();
+			std::cout << liftController.EncoderGet() << std::endl;
 			Wait(0.005); // wait 5ms to avoid hogging CPU cycles
 		}
 	}
