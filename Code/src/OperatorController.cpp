@@ -24,6 +24,10 @@ OperatorController::~OperatorController() {
 }
 
 void OperatorController::Run() {
+
+	bool incPressed = false;
+	bool zeroPressed = false;
+
 	driveController.SetThrottle(strafe/2, forward/2, rotation/2);
 
 	if (stickRight.GetRawButton(3)==1){
@@ -33,9 +37,27 @@ void OperatorController::Run() {
 	} else {
 		liftController.SetSpeed(0);
 	}
+/*
+	if (stickLeft.GetRawButton(11)==1){
+		if (!zeroPressed){
+			zeroPressed = true;
+			liftController.SetHeightValue(LiftController::LIFT_TOTE_HEIGHTS::ZERO);
+		}
+	} else {
+		zeroPressed = false;
+	}
 
+	if (stickLeft.GetRawButton(12)==1){
+		if (!incPressed){
+			incPressed = true;
+			liftController.IncrementHeight();
+		}
+	} else {
+		incPressed = false;
+	}
+*/
 	rotation=((stickRight.GetY()/2)-(stickLeft.GetY()/2));
 	strafe=((stickRight.GetX()/2)+(stickLeft.GetX()/2));
 	forward=((stickRight.GetY()/2)+(stickLeft.GetY()/2));
-
 }
+

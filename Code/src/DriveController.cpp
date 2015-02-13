@@ -28,3 +28,6 @@ void DriveController::SetSafetyEnabled(bool enabled) {
 	robotDrive.SetSafetyEnabled(enabled);
 }
 
+void DriveController::SetExpiration(float expiration){
+	robotDrive.SetExpiration(expiration);
+}

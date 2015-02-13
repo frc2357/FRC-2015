@@ -23,7 +23,7 @@ class Robot: public SampleRobot
 public:
 	Robot() :
 			driveController(1, 0, 2, 3),
-			liftController(4, 1, 3, 4),
+			liftController(4, 1, 3, 4, 0.0, 0.0, 0.0),
 			operatorController(driveController, liftController, 0, 1),
 			autonomousControl(driveController, liftController)
 	{
@@ -46,12 +46,14 @@ public:
 
 	void OperatorControl()
 	{
+		liftController.StartPID();
 		driveController.SetSafetyEnabled(false);
+		driveController.SetExpiration(0.025);
 		while (IsOperatorControl() && IsEnabled())
 		{
 			operatorController.Run();
 			std::cout << liftController.EncoderGet() << std::endl;
-			Wait(0.005); // wait 5ms to avoid hogging CPU cycles
+			Wait(0.0005); // wait 5ms to avoid hogging CPU cycles
 		}
 	}
 

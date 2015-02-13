@@ -17,6 +17,7 @@ public:
 
 	void SetThrottle(float x, float y, float rotate);
 	void SetSafetyEnabled(bool enabled);
+	void SetExpiration(float expiration);
 
 private:
 	RobotDrive robotDrive;
