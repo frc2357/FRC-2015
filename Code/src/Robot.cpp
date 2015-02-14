@@ -48,12 +48,12 @@ public:
 	{
 		liftController.StartPID();
 		driveController.SetSafetyEnabled(false);
-		driveController.SetExpiration(0.025);
+		driveController.SetExpiration(0.25);
 		while (IsOperatorControl() && IsEnabled())
 		{
 			operatorController.Run();
-			std::cout << liftController.EncoderGet() << std::endl;
-			Wait(0.0005); // wait 5ms to avoid hogging CPU cycles
+			//std::cout << liftController.EncoderGet() << std::endl;
+			Wait(0.005); // wait 5ms to avoid hogging CPU cycles
 		}
 	}
 
