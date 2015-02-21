@@ -23,21 +23,21 @@ LiftController::~LiftController() {
 void LiftController::SetSpeed(float speed) {
 	if (IsDown() && speed > 0) {
 		speed = 0;
-		encoder.Reset();
 	}
 	liftMotor.SetSpeed(speed);
 }
 
 bool LiftController::IsDown() {
-	return (downSwitch.Get() == 1);
+	return (downSwitch.Get() == 0);
 }
 
-int LiftController::EncoderGet(){
-	return encoder.Get();
-}
 
 int32_t LiftController::GetHeightValue(){
 	return encoder.Get();
+}
+
+int LiftController::GetSetpointValue(){
+	return presetControl.GetSetpoint();
 }
 
 void LiftController::SetHeightValue(float encoderValue){
@@ -46,9 +46,11 @@ void LiftController::SetHeightValue(float encoderValue){
 
 void LiftController::StartPID(){
 	presetControl.Enable();
+	presetControl.SetContinuous(false);
+	encoder.SetPIDSourceParameter(PIDSource::kDistance);
 }
 
-void LiftController::IncrementHeight(){
+/*void LiftController::IncrementHeight(){
 	int32_t height = GetHeightValue();
 	for(int i=0; i<LIFT_TOTE_HEIGHTS::HEIGHT_MAX; i++){
 		if(LIFT_TOTE_HEIGHTS_ARRAY[i]>height){
@@ -56,4 +58,7 @@ void LiftController::IncrementHeight(){
 			return;
 		}
 	}
+}*/
+void LiftController::StartEncoder(){
+	encoder.Reset();
 }

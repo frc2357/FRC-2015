@@ -25,11 +25,12 @@ public:
 
 	void SetSpeed(float speed);
 	bool IsDown();
-	int EncoderGet();
 	int32_t GetHeightValue();
+	int GetSetpointValue();
 	void SetHeightValue(float encoderValue);
-	void IncrementHeight();
+	//void IncrementHeight();
 	void StartPID();
+	void StartEncoder();
 
 
 	enum LIFT_TOTE_HEIGHTS{

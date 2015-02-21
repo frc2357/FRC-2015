@@ -46,7 +46,8 @@ public:
 
 	void OperatorControl()
 	{
-		liftController.StartPID();
+		//liftController.StartPID();
+		liftController.StartEncoder();
 		driveController.SetSafetyEnabled(false);
 		driveController.SetExpiration(0.25);
 		while (IsOperatorControl() && IsEnabled())

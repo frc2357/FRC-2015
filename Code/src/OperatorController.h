@@ -11,6 +11,7 @@
 #include "Joystick.h"
 #include "DriveController.h"
 #include "LiftController.h"
+#include "RampController.h"
 
 class OperatorController {
 public:
@@ -24,8 +25,9 @@ public:
 private:
 	DriveController &driveController;
 	LiftController &liftController;
-	Joystick stickRight;
 	Joystick stickLeft;
+	RampController rampController;
+	Joystick stickRight;
 	float rotation;
 	float forward;
 	float strafe;
