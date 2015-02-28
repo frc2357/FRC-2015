@@ -9,6 +9,7 @@
 #define SRC_RAMPCONTROLLER_H_
 
 #include "Joystick.h"
+#include "Math.h"
 
 
 
@@ -17,12 +18,22 @@ public:
 	RampController(int stickLChan, int stickRChan);
 	virtual ~RampController();
 
-	float GetCurrentStickX();
-	float GetCurrentStickY();
-	float GetCurrentStickRotation();
+
 	float GetCurrentX();
 	float GetCurrentY();
 	float GetCurrentZ();
+	void ProcessX();
+	void ProcessY();
+	void ProcessRotation();
+	float Round(float value);
+	void Reset();
+	void UpdateMotors();
+	float currentX;
+	float currentY;
+	float currentRotation;
+	float requestedX;
+	float requestedY;
+	float requestedRotation;
 
 
 
@@ -32,11 +43,10 @@ public:
 private:
 	static const int SPEED_ARRAY_SIZE = 3;
 	//float currentDelta;
-	float currentSpeedArray[SPEED_ARRAY_SIZE];
-	float previousSpeedArray[SPEED_ARRAY_SIZE];
-	float previousThrottleX;
-	float previousThrottleY;
-	float previousThrottleRotation;
+	//float currentSpeedArray[SPEED_ARRAY_SIZE];
+	//float previousSpeedArray[SPEED_ARRAY_SIZE];
+
+
 	float maxChange;
 
 	Joystick stickLeft;

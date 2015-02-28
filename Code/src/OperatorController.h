@@ -28,9 +28,7 @@ private:
 	Joystick stickLeft;
 	RampController rampController;
 	Joystick stickRight;
-	float rotation;
-	float forward;
-	float strafe;
+
 };
 
 #endif /* SRC_OPERATORCONTROL_H_ */

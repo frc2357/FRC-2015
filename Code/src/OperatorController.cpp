@@ -14,10 +14,7 @@ OperatorController::OperatorController(DriveController &driveCtlr,
 	  liftController(liftCtlr),
 	  stickLeft(stickLChan),
 	  rampController(stickLChan, stickRChan),
-	  stickRight(stickRChan),
-	  rotation(0),
-	  forward(0),
-	  strafe(0){
+	  stickRight(stickRChan){
 
 }
 
@@ -26,12 +23,18 @@ OperatorController::~OperatorController() {
 
 void OperatorController::Run() {
 
+	rampController.requestedX = ((stickRight.GetX()/2)+(stickLeft.GetX()/2));
+	rampController.requestedY = ((stickRight.GetY()/2)+(stickLeft.GetY()/2));
+	rampController.requestedRotation = ((stickRight.GetY()/2)-(stickLeft.GetY()/2));
 	//std::cout << liftController.GetHeightValue() << "," << liftController.GetSetpointValue() << std::endl;
 	//bool incPressed = false;
 	//bool zeroPressed = false;
 	std::cout << liftController.GetHeightValue() << std::endl;
+	if(stickLeft.GetRawButton(7)){
+		rampController.Reset();
+	};
 
-	driveController.SetThrottle(strafe/2, forward/2, rotation/2);
+	//driveController.SetThrottle(rampController.currentX/2, rampController.currentY/2, rampController.currentRotation/2);
 
 	if (stickRight.GetRawButton(3)==1){
 		liftController.SetSpeed(1);
@@ -59,8 +62,6 @@ void OperatorController::Run() {
 		incPressed = false;
 	}
 */
-	rotation=(rampController.GetCurrentZ());
-	strafe=(rampController.GetCurrentX());
-	forward=(rampController.GetCurrentY());
+
 }
 

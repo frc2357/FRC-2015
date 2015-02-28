@@ -11,32 +11,23 @@
 RampController::RampController(int stickLChan, int stickRChan)
  :  stickLeft(stickLChan),
 	stickRight(stickRChan){
-	previousThrottleX = 0;
-	previousThrottleY = 0;
-	previousThrottleRotation = 0;
+	requestedX = 0;
+	requestedY = 0;
+	requestedRotation = 0;
+	currentX = 0;
+	currentY = 0;
+	currentRotation = 0;
 	maxChange = 0.02;
 
 }
 
 RampController::~RampController() {
-	// TODO Auto-generated destructor stub
 }
 
-float RampController::GetCurrentStickX(){
-	return ((stickRight.GetX()/2)+(stickLeft.GetX()/2));
-}
-
-float RampController::GetCurrentStickY(){
-	return ((stickRight.GetY()/2)+(stickLeft.GetY()/2));
-}
-
-float RampController::GetCurrentStickRotation(){
-	return ((stickRight.GetY()/2)-(stickLeft.GetY()/2));
-}
 
 float RampController::GetCurrentX(){
-	float o = GetCurrentStickX();
-	float op = previousThrottleX;
+	float o = requestedX;
+	float op = currentX;
 	float d = maxChange;
 	if (o > op+d){
 		o = op+d;
@@ -49,8 +40,8 @@ float RampController::GetCurrentX(){
 }
 
 float RampController::GetCurrentY(){
-	float o = GetCurrentStickY();
-	float op = previousThrottleY;
+	float o = requestedY;
+	float op = currentY;
 	float d = maxChange;
 	if (o > op+d){
 		o = op+d;
@@ -63,8 +54,8 @@ float RampController::GetCurrentY(){
 }
 
 float RampController::GetCurrentZ(){
-	float o = GetCurrentStickRotation();
-	float op = previousThrottleRotation;
+	float o = requestedRotation;
+	float op = currentRotation;
 	float d = maxChange;
 	if (o > op+d){
 		o = op+d;
@@ -74,4 +65,32 @@ float RampController::GetCurrentZ(){
 	op = o;
 	Wait (0.01);
 	return o;
+}
+
+void RampController::ProcessX(){
+	// TODO Transfer GetCurrentX code into here. (Nick: use Pseudo-Code email)
+}
+
+void RampController::ProcessY(){
+	// TODO Transfer GetCurrentY code into here. (Nick: use Pseudo-Code email)
+}
+
+void RampController::ProcessRotation(){
+	// TODO Transfer GetCurrentRotation code into here. (Nick: use Pseudo-Code email)
+}
+
+float RampController::Round(float value){
+	if(value!=0){
+		return round(value*10.0)/10.0;
+	} else {
+		return 0;
+	}
+}
+
+void RampController::Reset(){
+
+}
+
+void RampController::UpdateMotors(){
+
 }

@@ -8,12 +8,11 @@
 #include "LiftController.h"
 
 LiftController::LiftController(int motorChan, int switchChan,
-								int encoderChan1, int encoderChan2,
-								float p, float i, float d)
+								int encoderChan1, int encoderChan2)
 	: liftMotor(motorChan),
 	  downSwitch(switchChan),
 	  encoder(encoderChan1, encoderChan2),
-	  presetControl(p, i, d, &encoder, &liftMotor){
+	  liftPID(encoder, liftMotor){
 }
 
 
@@ -37,17 +36,15 @@ int32_t LiftController::GetHeightValue(){
 }
 
 int LiftController::GetSetpointValue(){
-	return presetControl.GetSetpoint();
+	return liftPID.GetSetpoint();
 }
 
 void LiftController::SetHeightValue(float encoderValue){
-	presetControl.SetSetpoint(encoderValue);
+	liftPID.SetSetpoint(encoderValue);
 }
 
 void LiftController::StartPID(){
-	presetControl.Enable();
-	presetControl.SetContinuous(false);
-	encoder.SetPIDSourceParameter(PIDSource::kDistance);
+
 }
 
 /*void LiftController::IncrementHeight(){

@@ -14,13 +14,13 @@
 #include "PIDController.h"
 #include "PIDSource.h"
 #include "PIDOutput.h"
+#include "Subsystems/LiftPID.h"
 
 
 class LiftController {
 public:
 	LiftController(int motorChan, int switchChan,
-					int encoderChan1, int encoderChan2,
-					float p, float i, float d);
+					int encoderChan1, int encoderChan2);
 	virtual ~LiftController();
 
 	void SetSpeed(float speed);
@@ -49,7 +49,7 @@ private:
 	Talon liftMotor;
 	DigitalInput downSwitch;
 	Encoder encoder;
-	PIDController presetControl;
+	LiftPID liftPID;
 };
 
 #endif /* SRC_LIFTCONTROLLER_H_ */
