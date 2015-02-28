@@ -26,7 +26,7 @@ double LiftPID::ReturnPIDInput()
 void LiftPID::UsePIDOutput(double output)
 {
 	if(!downSwitch.Get()){
-		std::cout << "PIDOutput: " << output << std::endl;
+		//std::cout << "PIDOutput: " << output << std::endl;
 		liftMotor.PIDWrite((float) output);
 	}
 

@@ -7,17 +7,23 @@
 
 #include "OperatorController.h"
 
+const float OperatorController::MAX_ROTATION_PER_SECOND = 90.0f;
+
 OperatorController::OperatorController(DriveController &driveCtlr,
 								 LiftController &liftCtlr,
 								 int stickLChan, int stickRChan)
-	: driveController(driveCtlr),
-	  liftController(liftCtlr),
-	  stickLeft(stickLChan),
-	  //rampController(stickLChan, stickRChan),
-	  stickRight(stickRChan){
+: driveController(driveCtlr),
+  liftController(liftCtlr),
+  stickLeft(stickLChan),
+  //rampController(stickLChan, stickRChan),
+  stickRight(stickRChan),
+  gyroTime()
+{
 	strafe = 0;
 	forward = 0;
 	rotation = 0;
+	gyroTime.Start();
+	lastRun = gyroTime.Get();
 }
 
 OperatorController::~OperatorController() {
@@ -25,22 +31,18 @@ OperatorController::~OperatorController() {
 
 void OperatorController::Run() {
 
-	//rampController.requestedX = ((stickRight.GetX()/2)+(stickLeft.GetX()/2));
-	//rampController.requestedY = ((stickRight.GetY()/2)+(stickLeft.GetY()/2));
-	//rampController.requestedRotation = ((stickRight.GetY()/2)-(stickLeft.GetY()/2));
-	strafe = ((stickRight.GetX()/2)+(stickLeft.GetX()/2));
-	forward = ((stickRight.GetY()/2)+(stickLeft.GetY()/2));
-	rotation = ((stickRight.GetY()/2)-(stickLeft.GetY()/2));
-	//std::cout << liftController.GetHeightValue() << "," << liftController.GetSetpointValue() << std::endl;
+	double secondsPassed = (gyroTime.Get() - lastRun);
+	float stickDifferential = ((stickRight.GetY()/2)-(stickLeft.GetY()/2));
+	float stickForward = ((stickRight.GetY()/2)+(stickLeft.GetY()/2));
+	float stickStrafe = ((stickRight.GetX()/2)+(stickLeft.GetX()/2));
+	float rotationDegPerSec = stickDifferential * MAX_ROTATION_PER_SECOND;
+
+	driveController.SetRotation(rotationDegPerSec * secondsPassed);
+	driveController.SetThrottle(stickStrafe, stickForward);
+
 	//bool incPressed = false;
 	//bool zeroPressed = false;
-	std::cout << liftController.GetHeightValue() << std::endl;
-	/*if(stickLeft.GetRawButton(7)){
-		rampController.Reset();
-	};*/
-
-	//driveController.SetThrottle(rampController.currentX/2, rampController.currentY/2, rampController.currentRotation/2);
-	driveController.SetThrottle(strafe/2, forward/2, rotation/2);
+	//std::cout << liftController.GetHeightValue() << std::endl;
 
 	if (stickRight.GetRawButton(3)==1){
 		liftController.SetSpeed(1);
@@ -49,9 +51,6 @@ void OperatorController::Run() {
 	} else {
 		liftController.SetSpeed(0);
 	}
-
-
-
 
 /*	if (stickLeft.GetRawButton(11)==1){
 		if (!zeroPressed){

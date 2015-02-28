@@ -12,6 +12,8 @@
 #include "DriveController.h"
 #include "LiftController.h"
 #include "RampController.h"
+#include "Timer.h"
+
 
 class OperatorController {
 public:
@@ -23,15 +25,19 @@ public:
 	void Run();
 
 private:
+	static const float MAX_ROTATION_PER_SECOND;
+
 	DriveController &driveController;
 	LiftController &liftController;
 	Joystick stickLeft;
 	//RampController rampController;
 	Joystick stickRight;
+	Timer gyroTime;
 
 	float strafe;
 	float forward;
 	float rotation;
+	double lastRun;
 
 };
 
