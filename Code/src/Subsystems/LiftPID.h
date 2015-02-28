@@ -8,7 +8,7 @@
 class LiftPID: public PIDSubsystem
 {
 public:
-	LiftPID(Encoder &encoder, Talon &liftMotor);
+	LiftPID(Encoder &encoder, Talon &liftMotor, DigitalInput &downSwitch);
 	double ReturnPIDInput();
 	void UsePIDOutput(double output);
 	void InitDefaultCommand();
@@ -16,6 +16,7 @@ public:
 private:
 	Encoder &encoder;
 	Talon &liftMotor;
+	DigitalInput &downSwitch;
 };
 
 #endif

@@ -12,7 +12,7 @@ LiftController::LiftController(int motorChan, int switchChan,
 	: liftMotor(motorChan),
 	  downSwitch(switchChan),
 	  encoder(encoderChan1, encoderChan2),
-	  liftPID(encoder, liftMotor){
+	  liftPID(encoder, liftMotor, downSwitch){
 }
 
 

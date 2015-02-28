@@ -2,10 +2,11 @@
 #include "SmartDashboard/SmartDashboard.h"
 #include "LiveWindow/LiveWindow.h"
 
-LiftPID::LiftPID(Encoder &encoder, Talon &liftMotor) :
+LiftPID::LiftPID(Encoder &encoder, Talon &liftMotor, DigitalInput &downSwitch) :
 		PIDSubsystem("LiftPID", 0.250, 0.0, 0.0),
 		encoder(encoder),
-		liftMotor(liftMotor)
+		liftMotor(liftMotor),
+		downSwitch(downSwitch)
 {
 	GetPIDController()->SetContinuous(false);
 	encoder.SetReverseDirection(true);
@@ -24,8 +25,11 @@ double LiftPID::ReturnPIDInput()
 
 void LiftPID::UsePIDOutput(double output)
 {
-	std::cout << "PIDOutput: " << output << std::endl;
-	liftMotor.PIDWrite((float) output);
+	if(!downSwitch.Get()){
+		std::cout << "PIDOutput: " << output << std::endl;
+		liftMotor.PIDWrite((float) output);
+	}
+
 }
 
 void LiftPID::InitDefaultCommand()

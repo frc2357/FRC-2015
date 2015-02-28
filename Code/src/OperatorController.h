@@ -26,8 +26,12 @@ private:
 	DriveController &driveController;
 	LiftController &liftController;
 	Joystick stickLeft;
-	RampController rampController;
+	//RampController rampController;
 	Joystick stickRight;
+
+	float strafe;
+	float forward;
+	float rotation;
 
 };
 
