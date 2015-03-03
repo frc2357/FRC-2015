@@ -25,20 +25,17 @@ public:
 	void Run();
 
 private:
-	static const float MAX_ROTATION_PER_SECOND;
+	static const float MAX_ROTATION;
 
 	DriveController &driveController;
 	LiftController &liftController;
 	Joystick stickLeft;
 	//RampController rampController;
 	Joystick stickRight;
-	Timer gyroTime;
 
 	float strafe;
 	float forward;
 	float rotation;
-	double lastRun;
-
 };
 
 #endif /* SRC_OPERATORCONTROL_H_ */

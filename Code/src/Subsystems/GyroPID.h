@@ -12,6 +12,7 @@ public:
 	void UsePIDOutput(double output);
 	void InitDefaultCommand();
 	float GetRotation();
+	double GetSetpoint();
 
 private:
 	Gyro &gyro;

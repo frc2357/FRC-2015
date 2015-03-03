@@ -18,6 +18,7 @@ public:
 	virtual ~DriveController();
 
 	void SetThrottle(float x, float y);
+	double GetRotation();
 	void SetRotation(float degrees);
 	void SetSafetyEnabled(bool enabled);
 	void SetExpiration(float expiration);

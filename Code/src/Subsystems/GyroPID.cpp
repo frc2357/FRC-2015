@@ -2,6 +2,7 @@
 #include "GyroPID.h"
 #include "SmartDashboard/SmartDashboard.h"
 #include "LiveWindow/LiveWindow.h"
+#include "Utilities.h"
 
 const float GyroPID::GYRO_VALUES_TO_DEGREES = (90.0f / 140.0f); // TODO Tune multiplier
 
@@ -23,11 +24,7 @@ GyroPID::GyroPID(Gyro &gyro) :
 double GyroPID::ReturnPIDInput()
 {
 	double degrees = gyro.PIDGet() * GYRO_VALUES_TO_DEGREES;
-	degrees = fmod(degrees, 360.0);  // Ensure degrees are between 0 and 360
-	degrees = (degrees < 0 ? degrees + 360 : degrees);  // Ensure degrees are always positive.
-
-	std::cout << degrees << std::endl;
-	return (degrees);
+	return Utilities::NormalizeRotation(degrees);
 }
 
 void GyroPID::UsePIDOutput(double output)
@@ -45,4 +42,9 @@ void GyroPID::InitDefaultCommand()
 float GyroPID::GetRotation()
 {
 	return rotation;
+}
+
+double GyroPID::GetSetpoint()
+{
+	return this->GetSetpoint();
 }

@@ -6,8 +6,9 @@
  */
 
 #include "OperatorController.h"
+#include "Utilities.h"
 
-const float OperatorController::MAX_ROTATION_PER_SECOND = 90.0f;
+const float OperatorController::MAX_ROTATION = 50.0f;
 
 OperatorController::OperatorController(DriveController &driveCtlr,
 								 LiftController &liftCtlr,
@@ -16,14 +17,11 @@ OperatorController::OperatorController(DriveController &driveCtlr,
   liftController(liftCtlr),
   stickLeft(stickLChan),
   //rampController(stickLChan, stickRChan),
-  stickRight(stickRChan),
-  gyroTime()
+  stickRight(stickRChan)
 {
 	strafe = 0;
 	forward = 0;
 	rotation = 0;
-	gyroTime.Start();
-	lastRun = gyroTime.Get();
 }
 
 OperatorController::~OperatorController() {
@@ -31,13 +29,16 @@ OperatorController::~OperatorController() {
 
 void OperatorController::Run() {
 
-	double secondsPassed = (gyroTime.Get() - lastRun);
 	float stickDifferential = ((stickRight.GetY()/2)-(stickLeft.GetY()/2));
 	float stickForward = ((stickRight.GetY()/2)+(stickLeft.GetY()/2));
 	float stickStrafe = ((stickRight.GetX()/2)+(stickLeft.GetX()/2));
-	float rotationDegPerSec = stickDifferential * MAX_ROTATION_PER_SECOND;
+	double deltaDegrees = stickDifferential * MAX_ROTATION;
+	double newSetpoint = Utilities::NormalizeRotation(driveController.GetRotation() + deltaDegrees);
 
-	driveController.SetRotation(rotationDegPerSec * secondsPassed);
+	//std::cout << deltaDegrees << std::endl;
+
+	std::cout << "x =" << stickStrafe << ", y =" << stickForward << ", rotation =" << newSetpoint << std::endl;
+	driveController.SetRotation(newSetpoint);
 	driveController.SetThrottle(stickStrafe, stickForward);
 
 	//bool incPressed = false;
@@ -70,6 +71,5 @@ void OperatorController::Run() {
 		incPressed = false;
 	}
 */
-
 }
 

@@ -30,6 +30,11 @@ void DriveController::SetThrottle(float x, float y) {
 	reqY = y;
 }
 
+double DriveController::GetRotation()
+{
+	return gyroPID.ReturnPIDInput();
+}
+
 void DriveController::SetRotation(float degrees)
 {
 	reqRotate = degrees;
