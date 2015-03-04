@@ -7,8 +7,10 @@
 
 #include "OperatorController.h"
 #include "Utilities.h"
+#include <cmath>
 
 const float OperatorController::MAX_ROTATION = 50.0f;
+const float OperatorController::STICK_DEADZONE = 0.1f;
 
 OperatorController::OperatorController(DriveController &driveCtlr,
 								 LiftController &liftCtlr,
@@ -29,21 +31,19 @@ OperatorController::~OperatorController() {
 
 void OperatorController::Run() {
 
-	float stickDifferential = ((stickRight.GetY()/2)-(stickLeft.GetY()/2));
-	float stickForward = ((stickRight.GetY()/2)+(stickLeft.GetY()/2));
-	float stickStrafe = ((stickRight.GetX()/2)+(stickLeft.GetX()/2));
-	double deltaDegrees = stickDifferential * MAX_ROTATION;
-	double newSetpoint = Utilities::NormalizeRotation(driveController.GetRotation() + deltaDegrees);
-
-	//std::cout << deltaDegrees << std::endl;
-
-	std::cout << "x =" << stickStrafe << ", y =" << stickForward << ", rotation =" << newSetpoint << std::endl;
-	driveController.SetRotation(newSetpoint);
-	driveController.SetThrottle(stickStrafe, stickForward);
-
-	//bool incPressed = false;
-	//bool zeroPressed = false;
-	//std::cout << liftController.GetHeightValue() << std::endl;
+	if(isDeadzone(stickLeft.GetX(), stickLeft.GetY()) &&
+	   isDeadzone(stickRight.GetX(), stickRight.GetY()))
+	{
+		driveController.SetThrottle(0, 0);
+	} else {
+		float stickDifferential = ((stickRight.GetY()/2)-(stickLeft.GetY()/2));
+		float stickForward = ((stickRight.GetY()/2)+(stickLeft.GetY()/2));
+		float stickStrafe = ((stickRight.GetX()/2)+(stickLeft.GetX()/2));
+		double deltaDegrees = stickDifferential * MAX_ROTATION;
+		double newSetpoint = Utilities::NormalizeRotation(driveController.GetRotation() + deltaDegrees);
+		driveController.SetRotation(newSetpoint);
+		driveController.SetThrottle(stickStrafe, stickForward);
+	}
 
 	if (stickRight.GetRawButton(3)==1){
 		liftController.SetSpeed(1);
@@ -52,24 +52,10 @@ void OperatorController::Run() {
 	} else {
 		liftController.SetSpeed(0);
 	}
+}
 
-/*	if (stickLeft.GetRawButton(11)==1){
-		if (!zeroPressed){
-			zeroPressed = true;
-			liftController.SetHeightValue(LiftController::LIFT_TOTE_HEIGHTS::ZERO);
-		}
-	} else {
-		zeroPressed = false;
-	}
-
-	if (stickLeft.GetRawButton(12)==1){
-		if (!incPressed){
-			incPressed = true;
-			liftController.IncrementHeight();
-		}
-	} else {
-		incPressed = false;
-	}
-*/
+bool OperatorController::isDeadzone(float x, float y)
+{
+	return(fabs(x) < STICK_DEADZONE && fabs(y) < STICK_DEADZONE);
 }
 

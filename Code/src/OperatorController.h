@@ -25,17 +25,20 @@ public:
 	void Run();
 
 private:
-	static const float MAX_ROTATION;
+
+	bool isDeadzone(float x, float y);
 
 	DriveController &driveController;
 	LiftController &liftController;
 	Joystick stickLeft;
-	//RampController rampController;
 	Joystick stickRight;
 
 	float strafe;
 	float forward;
 	float rotation;
+
+	static const float MAX_ROTATION;
+	static const float STICK_DEADZONE;
 };
 
 #endif /* SRC_OPERATORCONTROL_H_ */
