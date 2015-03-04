@@ -23,6 +23,7 @@ public:
 					int stickRChan);
 	virtual ~OperatorController();
 	void Run();
+	void updateHatSetpoints(Joystick &stick);
 
 private:
 
@@ -36,6 +37,7 @@ private:
 	float strafe;
 	float forward;
 	float rotation;
+	int hatPosition;
 
 	static const float MAX_ROTATION;
 	static const float STICK_DEADZONE;

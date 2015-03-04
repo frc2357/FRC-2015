@@ -24,6 +24,7 @@ OperatorController::OperatorController(DriveController &driveCtlr,
 	strafe = 0;
 	forward = 0;
 	rotation = 0;
+	hatPosition = 0;
 }
 
 OperatorController::~OperatorController() {
@@ -34,6 +35,7 @@ void OperatorController::Run() {
 	if(isDeadzone(stickLeft.GetX(), stickLeft.GetY()) &&
 	   isDeadzone(stickRight.GetX(), stickRight.GetY()))
 	{
+		updateHatSetpoints(stickLeft);
 		driveController.SetThrottle(0, 0);
 	} else {
 		float stickDifferential = ((stickRight.GetY()/2)-(stickLeft.GetY()/2));
@@ -59,3 +61,26 @@ bool OperatorController::isDeadzone(float x, float y)
 	return(fabs(x) < STICK_DEADZONE && fabs(y) < STICK_DEADZONE);
 }
 
+
+
+void OperatorController::updateHatSetpoints(Joystick &stick)
+{
+	if(stick.GetPOV() == 180)
+	{
+		driveController.SetRotation(0);
+	}
+	else if(stick.GetPOV() == 0)
+	{
+		driveController.SetRotation(180);
+	}
+	else if(stick.GetPOV() == 90)
+	{
+		driveController.SetRotation(90);
+	}
+	else if(stick.GetPOV() == 270)
+	{
+		driveController.SetRotation(270);
+	}
+
+	std::cout << stick.GetPOV() << std::endl;
+}
