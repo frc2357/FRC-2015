@@ -54,6 +54,8 @@ void Robot::TeleopInit()
 	liftController.StartEncoder();
 	driveController.SetSafetyEnabled(false);
 	driveController.SetExpiration(0.25);
+	TeleopPeriodic();
+
 }
 
 void Robot::TeleopPeriodic()

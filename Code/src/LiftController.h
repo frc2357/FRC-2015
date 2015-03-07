@@ -25,7 +25,7 @@ public:
 
 	void SetSpeed(float speed);
 	bool IsDown();
-	int32_t GetHeightValue();
+	double GetHeightValue();
 	int GetSetpointValue();
 	void SetHeightValue(float encoderValue);
 	//void IncrementHeight();

@@ -13,6 +13,9 @@ LiftController::LiftController(int motorChan, int switchChan,
 	  downSwitch(switchChan),
 	  encoder(encoderChan1, encoderChan2),
 	  liftPID(encoder, liftMotor, downSwitch){
+	//encoder.SetReverseDirection(false);
+	encoder.SetDistancePerPulse(0.01);
+
 }
 
 
@@ -22,8 +25,10 @@ LiftController::~LiftController() {
 void LiftController::SetSpeed(float speed) {
 	if (IsDown() && speed > 0) {
 		speed = 0;
+		encoder.Reset();
 	}
 	liftMotor.SetSpeed(speed);
+	SetHeightValue(GetHeightValue());
 }
 
 bool LiftController::IsDown() {
@@ -31,8 +36,8 @@ bool LiftController::IsDown() {
 }
 
 
-int32_t LiftController::GetHeightValue(){
-	return encoder.Get();
+double LiftController::GetHeightValue(){
+	return liftPID.ReturnPIDInput();
 }
 
 int LiftController::GetSetpointValue(){

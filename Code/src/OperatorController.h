@@ -24,6 +24,7 @@ public:
 	virtual ~OperatorController();
 	void Run();
 	void updateHatSetpoints(Joystick &stick);
+	void updateSetpointButton(Joystick &stick);
 
 private:
 
@@ -41,6 +42,7 @@ private:
 
 	static const float MAX_ROTATION;
 	static const float STICK_DEADZONE;
+	static const float LIFT_INCREMENT;
 };
 
 #endif /* SRC_OPERATORCONTROL_H_ */

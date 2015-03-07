@@ -11,6 +11,8 @@
 
 const float OperatorController::MAX_ROTATION = 50.0f;
 const float OperatorController::STICK_DEADZONE = 0.1f;
+const float OperatorController::LIFT_INCREMENT = 10.0f;
+
 
 OperatorController::OperatorController(DriveController &driveCtlr,
 								 LiftController &liftCtlr,
@@ -32,6 +34,8 @@ OperatorController::~OperatorController() {
 
 void OperatorController::Run() {
 
+	updateSetpointButton(stickLeft);
+
 	if(isDeadzone(stickLeft.GetX(), stickLeft.GetY()) &&
 	   isDeadzone(stickRight.GetX(), stickRight.GetY()))
 	{
@@ -45,14 +49,6 @@ void OperatorController::Run() {
 		double newSetpoint = Utilities::NormalizeRotation(driveController.GetRotation() + deltaDegrees);
 		driveController.SetRotation(newSetpoint);
 		driveController.SetThrottle(stickStrafe, stickForward);
-	}
-
-	if (stickRight.GetRawButton(3)==1){
-		liftController.SetSpeed(1);
-	} else if(stickRight.GetRawButton(4)==1){
-		liftController.SetSpeed(-1);
-	} else {
-		liftController.SetSpeed(0);
 	}
 }
 
@@ -81,6 +77,17 @@ void OperatorController::updateHatSetpoints(Joystick &stick)
 	{
 		driveController.SetRotation(270);
 	}
+}
 
-	std::cout << stick.GetPOV() << std::endl;
+void OperatorController::updateSetpointButton(Joystick &stick)
+{
+	std::cout << "encoder: " << liftController.GetHeightValue() << ", setpoint: " << liftController.GetSetpointValue() << std::endl;
+	if(stick.GetRawButton(4) == 1)
+	{
+		liftController.SetHeightValue((liftController.GetHeightValue()) + LIFT_INCREMENT);
+	}
+	else if(stick.GetRawButton(3) == 1)
+	{
+		liftController.SetHeightValue((liftController.GetHeightValue()) - LIFT_INCREMENT);
+	}
 }
