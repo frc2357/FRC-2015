@@ -7,11 +7,11 @@
 
 #include <StingerController.h>
 
-StingerController::StingerController(int motorChan, int awaySwitchChan, int backSwitchChan)
+StingerController::StingerController(int motorChan, int backSwitchChan)
 	: windowMotor(motorChan),
-	  awaySwitch(awaySwitchChan),
 	  backSwitch(backSwitchChan)
 {
+	requestedSpeed = 0;
 }
 
 StingerController::~StingerController()
@@ -20,10 +20,18 @@ StingerController::~StingerController()
 
 void StingerController::Update()
 {
-	std::cout << "away: " << awaySwitch.Get() << ", back: " << backSwitch.Get() << std::endl;
+	//std::cout << "away: " << awaySwitch.Get() << ", back: " << backSwitch.Get() << std::endl;
+	if(backSwitch.Get() == 0)
+	{
+		windowMotor.SetSpeed(-0.25);
+	}
+	else
+	{
+		windowMotor.SetSpeed(requestedSpeed);
+	}
 }
 
 void StingerController::SetSpeed(float speed)
 {
-	windowMotor.SetSpeed(speed);
+	requestedSpeed = speed;
 }

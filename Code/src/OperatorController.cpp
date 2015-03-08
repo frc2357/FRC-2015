@@ -47,16 +47,9 @@ void OperatorController::Run() {
 	else if (stickLeft.GetRawButton(4) == 1) {
 		stingerController.SetSpeed(0.25);
 	}
-	else if(stickRight.GetRawButton(3) == 1)
+	else if(stickRight.GetRawButton(4) == 1)
 	{
-		if(!liftController.IsDown())
-			{
-				stingerController.SetSpeed(STINGER_FOLLOW_DOWN);
-			}
-	}
-	else if (stickRight.GetRawButton(4) == 1)
-	{
-		stingerController.SetSpeed(STINGER_FOLLOW_UP);
+		stingerController.SetSpeed(0.25);
 	}
 	else
 	{

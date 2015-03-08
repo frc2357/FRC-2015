@@ -13,7 +13,7 @@
 Robot::Robot() :
 			driveController(1, 0, 2, 3, 0),
 			liftController(4, 1, 3, 4),
-			stingerController(5, 5, 6),
+			stingerController(5, 6),
 			operatorController(driveController, liftController, stingerController, 0, 1),
 			autonomousControl(driveController, liftController)
 {

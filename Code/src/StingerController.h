@@ -13,7 +13,7 @@
 
 class StingerController {
 public:
-	StingerController(int motorChan, int awaySwitchChan, int backSwitchChan);
+	StingerController(int motorChan, int backSwitchChan);
 	virtual ~StingerController();
 
 	void Update();
@@ -21,8 +21,9 @@ public:
 
 private:
 	Talon windowMotor;
-	DigitalInput awaySwitch;
 	DigitalInput backSwitch;
+
+	float requestedSpeed;
 };
 
 #endif /* SRC_STINGERCONTROLLER_H_ */
