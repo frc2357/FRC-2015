@@ -11,6 +11,7 @@
 #include "Joystick.h"
 #include "DriveController.h"
 #include "LiftController.h"
+#include "StingerController.h"
 #include "RampController.h"
 #include "Timer.h"
 
@@ -19,6 +20,7 @@ class OperatorController {
 public:
 	OperatorController(DriveController &driveCtlr,
 					LiftController &liftCtlr,
+					StingerController &stingerCtlr,
 					int stickLChan,
 					int stickRChan);
 	virtual ~OperatorController();
@@ -32,6 +34,7 @@ private:
 
 	DriveController &driveController;
 	LiftController &liftController;
+	StingerController &stingerController;
 	Joystick stickLeft;
 	Joystick stickRight;
 

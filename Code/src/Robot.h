@@ -14,6 +14,7 @@ public:
 	LiveWindow *lw;
 	DriveController driveController;
 	LiftController liftController;
+	StingerController stingerController;
 	OperatorController operatorController;
 	AutonomousControl autonomousControl;
 

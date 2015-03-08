@@ -1,6 +1,7 @@
 #include "WPILib.h"
 #include "DriveController.h"
 #include "LiftController.h"
+#include "StingerController.h"
 #include "OperatorController.h"
 #include "AutonomousControl.h"
 #include "LiveWindow/LiveWindow.h"
@@ -12,7 +13,8 @@
 Robot::Robot() :
 			driveController(1, 0, 2, 3, 0),
 			liftController(4, 1, 3, 4),
-			operatorController(driveController, liftController, 0, 1),
+			stingerController(5, 5, 6),
+			operatorController(driveController, liftController, stingerController, 0, 1),
 			autonomousControl(driveController, liftController)
 {
 
@@ -62,6 +64,7 @@ void Robot::TeleopPeriodic()
 {
 	operatorController.Run();
 	driveController.UpdateMotors();
+	stingerController.Update();
 	//std::cout << liftController.EncoderGet() << std::endl;
 }
 

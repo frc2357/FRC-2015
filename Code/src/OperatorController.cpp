@@ -16,9 +16,11 @@ const float OperatorController::LIFT_INCREMENT = 10.0f;
 
 OperatorController::OperatorController(DriveController &driveCtlr,
 								 LiftController &liftCtlr,
+								 StingerController &stingerCtlr,
 								 int stickLChan, int stickRChan)
 : driveController(driveCtlr),
   liftController(liftCtlr),
+  stingerController(stingerCtlr),
   stickLeft(stickLChan),
   //rampController(stickLChan, stickRChan),
   stickRight(stickRChan)
@@ -35,6 +37,15 @@ OperatorController::~OperatorController() {
 void OperatorController::Run() {
 
 	updateSetpointButton(stickLeft);
+
+	// Button 7 deploys the stinger.
+	if (stickRight.GetRawButton(7) == 1) {
+		stingerController.SetSpeed(-0.25);
+	} else if (stickRight.GetRawButton(8) == 1) {
+		stingerController.SetSpeed(0.25);
+	} else {
+		stingerController.SetSpeed(0);
+	}
 
 	if(isDeadzone(stickLeft.GetX(), stickLeft.GetY()) &&
 	   isDeadzone(stickRight.GetX(), stickRight.GetY()))
