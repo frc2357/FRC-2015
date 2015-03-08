@@ -38,6 +38,8 @@ OperatorController::~OperatorController() {
 
 void OperatorController::Run() {
 
+	std::cout << liftController.GetHeightValue() << std::endl;
+
 	updateSetpointButton(stickRight);
 
 	// Button 7 deploys the stinger.

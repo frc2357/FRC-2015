@@ -19,7 +19,16 @@ AutonomousControl::~AutonomousControl() {
 }
 
 void AutonomousControl::RunModeOne(){
-
+	liftController.SetHeightValue(120);
+	driveController.SetThrottle(0.0, -0.125);
+	driveController.UpdateMotors();
+	Wait(0.5);
+	driveController.SetThrottle(0.0, 0.5);
+	driveController.UpdateMotors();
+	Wait(3.0);
+	driveController.SetThrottle(0.0, 0.0);
+	driveController.UpdateMotors();
+	liftController.SetHeightValue(0);
 }
 
 void AutonomousControl::RunModeTwo(){

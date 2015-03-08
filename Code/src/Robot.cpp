@@ -41,13 +41,13 @@ void Robot::DisabledPeriodic()
 
 void Robot::AutonomousInit()
 {
-
+	driveController.SetSafetyEnabled(false);
+	autonomousControl.RunModeOne();
+	driveController.UpdateMotors();
 }
 
 void Robot::AutonomousPeriodic()
 {
-	autonomousControl.RunModeOne();
-	driveController.UpdateMotors();
 }
 
 void Robot::TeleopInit()
