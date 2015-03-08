@@ -53,7 +53,6 @@ void Robot::AutonomousPeriodic()
 void Robot::TeleopInit()
 {
 	//liftController.StartPID();
-	liftController.StartEncoder();
 	driveController.SetSafetyEnabled(false);
 	driveController.SetExpiration(0.25);
 	TeleopPeriodic();

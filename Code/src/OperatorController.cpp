@@ -12,6 +12,8 @@
 const float OperatorController::MAX_ROTATION = 50.0f;
 const float OperatorController::STICK_DEADZONE = 0.1f;
 const float OperatorController::LIFT_INCREMENT = 10.0f;
+const float OperatorController::STINGER_FOLLOW_UP = 0.075f;
+const float OperatorController::STINGER_FOLLOW_DOWN = -0.11f;
 
 
 OperatorController::OperatorController(DriveController &driveCtlr,
@@ -41,11 +43,27 @@ void OperatorController::Run() {
 	// Button 7 deploys the stinger.
 	if (stickLeft.GetRawButton(3) == 1) {
 		stingerController.SetSpeed(-0.25);
-	} else if (stickLeft.GetRawButton(4) == 1) {
+	}
+	else if (stickLeft.GetRawButton(4) == 1) {
 		stingerController.SetSpeed(0.25);
-	} else {
+	}
+	else if(stickRight.GetRawButton(3) == 1)
+	{
+		if(!liftController.IsDown())
+			{
+				stingerController.SetSpeed(STINGER_FOLLOW_DOWN);
+			}
+	}
+	else if (stickRight.GetRawButton(4) == 1)
+	{
+		stingerController.SetSpeed(STINGER_FOLLOW_UP);
+	}
+	else
+	{
 		stingerController.SetSpeed(0);
 	}
+
+
 
 	if(isDeadzone(stickRight.GetX(), stickRight.GetY()) &&
 	   isDeadzone(stickLeft.GetX(), stickLeft.GetY()))
@@ -92,7 +110,6 @@ void OperatorController::updateHatSetpoints(Joystick &stick)
 
 void OperatorController::updateSetpointButton(Joystick &stick)
 {
-	std::cout << "encoder: " << liftController.GetHeightValue() << ", setpoint: " << liftController.GetSetpointValue() << std::endl;
 	if(stick.GetRawButton(4) == 1)
 	{
 		liftController.SetHeightValue((liftController.GetHeightValue()) + LIFT_INCREMENT);
@@ -100,8 +117,8 @@ void OperatorController::updateSetpointButton(Joystick &stick)
 	else if(stick.GetRawButton(3) == 1)
 	{
 		if(!liftController.IsDown())
-		{
-			liftController.SetHeightValue((liftController.GetHeightValue()) - LIFT_INCREMENT);
-		}
+			{
+				liftController.SetHeightValue((liftController.GetHeightValue()) - LIFT_INCREMENT);
+			}
 	}
 }

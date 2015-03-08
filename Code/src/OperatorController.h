@@ -46,6 +46,8 @@ private:
 	static const float MAX_ROTATION;
 	static const float STICK_DEADZONE;
 	static const float LIFT_INCREMENT;
+	static const float STINGER_FOLLOW_UP;
+	static const float STINGER_FOLLOW_DOWN;
 };
 
 #endif /* SRC_OPERATORCONTROL_H_ */
