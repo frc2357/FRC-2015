@@ -35,8 +35,8 @@ private:
 	DriveController &driveController;
 	LiftController &liftController;
 	StingerController &stingerController;
-	Joystick stickLeft;
 	Joystick stickRight;
+	Joystick stickLeft;
 
 	float strafe;
 	float forward;

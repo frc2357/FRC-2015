@@ -21,9 +21,9 @@ OperatorController::OperatorController(DriveController &driveCtlr,
 : driveController(driveCtlr),
   liftController(liftCtlr),
   stingerController(stingerCtlr),
-  stickLeft(stickLChan),
+  stickRight(stickLChan),
   //rampController(stickLChan, stickRChan),
-  stickRight(stickRChan)
+  stickLeft(stickRChan)
 {
 	strafe = 0;
 	forward = 0;
@@ -36,26 +36,26 @@ OperatorController::~OperatorController() {
 
 void OperatorController::Run() {
 
-	updateSetpointButton(stickLeft);
+	updateSetpointButton(stickRight);
 
 	// Button 7 deploys the stinger.
-	if (stickRight.GetRawButton(7) == 1) {
+	if (stickLeft.GetRawButton(3) == 1) {
 		stingerController.SetSpeed(-0.25);
-	} else if (stickRight.GetRawButton(8) == 1) {
+	} else if (stickLeft.GetRawButton(4) == 1) {
 		stingerController.SetSpeed(0.25);
 	} else {
 		stingerController.SetSpeed(0);
 	}
 
-	if(isDeadzone(stickLeft.GetX(), stickLeft.GetY()) &&
-	   isDeadzone(stickRight.GetX(), stickRight.GetY()))
+	if(isDeadzone(stickRight.GetX(), stickRight.GetY()) &&
+	   isDeadzone(stickLeft.GetX(), stickLeft.GetY()))
 	{
-		updateHatSetpoints(stickLeft);
+		updateHatSetpoints(stickRight);
 		driveController.SetThrottle(0, 0);
 	} else {
-		float stickDifferential = ((stickRight.GetY()/2)-(stickLeft.GetY()/2));
-		float stickForward = ((stickRight.GetY()/2)+(stickLeft.GetY()/2));
-		float stickStrafe = ((stickRight.GetX()/2)+(stickLeft.GetX()/2));
+		float stickDifferential = ((stickLeft.GetY()/2)-(stickRight.GetY()/2));
+		float stickForward = ((stickLeft.GetY()/2)+(stickRight.GetY()/2));
+		float stickStrafe = ((stickLeft.GetX()/2)+(stickRight.GetX()/2));
 		double deltaDegrees = stickDifferential * MAX_ROTATION;
 		double newSetpoint = Utilities::NormalizeRotation(driveController.GetRotation() + deltaDegrees);
 		driveController.SetRotation(newSetpoint);
