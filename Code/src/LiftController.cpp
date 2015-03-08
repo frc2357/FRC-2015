@@ -20,15 +20,7 @@ LiftController::LiftController(int motorChan, int switchChan,
 
 
 LiftController::~LiftController() {
-}
 
-void LiftController::SetSpeed(float speed) {
-	if (IsDown() && speed > 0) {
-		speed = 0;
-		encoder.Reset();
-	}
-	liftMotor.SetSpeed(speed);
-	SetHeightValue(GetHeightValue());
 }
 
 bool LiftController::IsDown() {

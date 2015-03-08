@@ -17,16 +17,12 @@ LiftPID::LiftPID(Encoder &encoder, Talon &liftMotor, DigitalInput &downSwitch) :
 
 double LiftPID::ReturnPIDInput()
 {
-
 	return encoder.PIDGet();
 }
 
 void LiftPID::UsePIDOutput(double output)
 {
-	if(downSwitch.Get() != 0){
-		//std::cout << "encoder:" << ReturnPIDInput() << ", setpoint:" << GetSetpoint() << ", output:" << output << std::endl;
-		liftMotor.PIDWrite((float) -output);
-	}
+	liftMotor.PIDWrite((float) -output);
 }
 
 void LiftPID::InitDefaultCommand()

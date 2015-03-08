@@ -99,6 +99,9 @@ void OperatorController::updateSetpointButton(Joystick &stick)
 	}
 	else if(stick.GetRawButton(3) == 1)
 	{
-		liftController.SetHeightValue((liftController.GetHeightValue()) - LIFT_INCREMENT);
+		if(!liftController.IsDown())
+		{
+			liftController.SetHeightValue((liftController.GetHeightValue()) - LIFT_INCREMENT);
+		}
 	}
 }

@@ -23,7 +23,6 @@ public:
 					int encoderChan1, int encoderChan2);
 	virtual ~LiftController();
 
-	void SetSpeed(float speed);
 	bool IsDown();
 	double GetHeightValue();
 	int GetSetpointValue();
